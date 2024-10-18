@@ -1,38 +1,37 @@
-# Todo List Application
+# Todo List Application (React Native)
 
 ## Overview
-This **Todo List application** allows users to create groups and manage individual todos within those groups. Users can perform **CRUD operations** on todos, and it includes **login and signup functionality** for authentication. The data is stored using **SQLite** for persistence.
+This **React Native Todo List application** allows users to manage tasks efficiently by organizing them into **groups**. Users can perform **CRUD operations** (Create, Read, Update, Delete) on todos within these groups. The app also features **login and signup functionality** for user authentication, and it uses **SQLite** as the local database for data persistence.
 
 ---
 
 ## Features
-- **Create Groups**: Organize todos into multiple groups.
-- **CRUD Operations**: Add, edit, delete, and mark todos as completed.
-- **Authentication**: Login and signup features for secured data access.
-- **SQLite Database**: Fast and reliable storage for user and todo data.
-- **Responsive Design**: Ensures a smooth experience across all devices.
+- **Create Groups**: Organize todos by grouping them.
+- **CRUD Operations**: Add, edit, delete, and mark todos as complete within groups.
+- **User Authentication**: Secure login and signup process.
+- **Local Storage**: Uses **SQLite** to store tasks and user data offline.
+- **Responsive Design**: Works seamlessly across iOS and Android devices.
 
 ---
 
 ## Design Choices
-- **Grouping Structure**: Helps users categorize tasks efficiently.
-- **Authentication**: Secures user data with login and signup features.
-- **SQLite Database**: Chosen for its simplicity and lightweight nature.
-- **Frontend with React**: State managed using hooks like `useState` and `useEffect`.
-- **Backend with Express.js**: Manages API routes and authentication logic.
+- **React Native**: Chosen for cross-platform development (iOS and Android).
+- **SQLite**: Provides a lightweight local database for offline access.
+- **User Authentication**: Ensures only authorized users can access their tasks.
+- **State Management**: Uses hooks like `useState` and `useEffect` to manage application state efficiently.
 
 ---
 
 ## Challenges Encountered
-1. **Database Integration**: Managing relationships between groups and todos required careful design.
-2. **Authentication**: Implementing secure login and session management with password hashing.
-3. **State Management**: Ensuring smooth updates without unnecessary re-renders.
-4. **Responsive Design**: Adapting UI across different screen sizes.
+1. **SQLite Integration**: Ensuring smooth read/write operations with minimal delays.
+2. **Authentication Logic**: Storing user credentials securely on the device.
+3. **Cross-Platform Compatibility**: Adapting styles to look consistent on both Android and iOS.
+4. **State Persistence**: Managing state effectively to reflect updates instantly.
 
 ---
 
 ## How to Run the Project
 
-1. Clone the repository:
+1. **Clone the repository:**
    ```bash
    git clone https://github.com/Abhays-harma/todo-list-project.git
