@@ -3,10 +3,8 @@ import {
   View, 
   Text, 
   TextInput, 
-  Button, 
   Alert, 
   TouchableOpacity, 
-  StyleSheet, 
   Image 
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -45,18 +43,19 @@ const Login = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Todo App</Text>
+    <View className="flex-1 bg-white items-center justify-center p-5">
+      {/* Optionally add a logo here */}
+      <Text className="text-4xl font-semibold mb-8 text-gray-800">Todo App</Text>
 
       <TextInput
-        style={styles.input}
+        className="w-full border border-gray-300 rounded-lg p-3 mb-4 text-base bg-gray-100"
         placeholder="Username"
         value={username}
         onChangeText={(text) => setUsername(text)}
         placeholderTextColor="#aaa"
       />
       <TextInput
-        style={styles.input}
+        className="w-full border border-gray-300 rounded-lg p-3 mb-4 text-base bg-gray-100"
         placeholder="Password"
         value={password}
         onChangeText={(text) => setPassword(text)}
@@ -64,70 +63,18 @@ const Login = () => {
         placeholderTextColor="#aaa"
       />
 
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-        <Text style={styles.loginButtonText}>Login</Text>
+      <TouchableOpacity className="w-full bg-green-600 p-4 rounded-lg items-center mt-2" onPress={handleLogin}>
+        <Text className="text-white text-lg font-semibold">Login</Text>
       </TouchableOpacity>
 
       <TouchableOpacity 
-        style={styles.signupButton} 
+        className="mt-4"
         onPress={() => navigation.navigate('SignUp')}
       >
-        <Text style={styles.signupText}>Don’t have an account? Sign Up</Text>
+        <Text className="text-green-600 text-base underline">Don’t have an account? Sign Up</Text>
       </TouchableOpacity>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  logo: {
-    width: 120,
-    height: 120,
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: '600',
-    marginBottom: 30,
-    color: '#333',
-  },
-  input: {
-    width: '100%',
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 10,
-    padding: 12,
-    marginBottom: 15,
-    fontSize: 16,
-    backgroundColor: '#f9f9f9',
-  },
-  loginButton: {
-    width: '100%',
-    backgroundColor: '#4CAF50',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  loginButtonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  signupButton: {
-    marginTop: 15,
-  },
-  signupText: {
-    color: '#4CAF50',
-    fontSize: 16,
-    textDecorationLine: 'underline',
-  },
-});
 
 export default Login;
