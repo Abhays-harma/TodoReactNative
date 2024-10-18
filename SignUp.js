@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import { 
-  View, 
-  Text, 
-  TextInput, 
-  TouchableOpacity, 
-  Alert, 
-  StyleSheet 
-} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as SQLite from 'expo-sqlite';
 
@@ -52,18 +45,18 @@ const SignUp = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Create Account</Text>
+    <View className="flex-1 bg-white items-center justify-center p-5">
+      <Text className="text-2xl font-semibold mb-7 text-gray-800">Create Account</Text>
 
       <TextInput
-        style={styles.input}
+        className="w-full border border-gray-300 rounded-lg p-3 mb-4 text-base bg-gray-100"
         placeholder="Username"
         value={username}
         onChangeText={setUsername}
         placeholderTextColor="#aaa"
       />
       <TextInput
-        style={styles.input}
+        className="w-full border border-gray-300 rounded-lg p-3 mb-4 text-base bg-gray-100"
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
@@ -71,60 +64,15 @@ const SignUp = () => {
         placeholderTextColor="#aaa"
       />
 
-      <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
-        <Text style={styles.signUpButtonText}>Sign Up</Text>
+      <TouchableOpacity className="w-full bg-green-500 p-4 rounded-lg items-center mt-2" onPress={handleSignUp}>
+        <Text className="text-white text-lg font-semibold">Sign Up</Text>
       </TouchableOpacity>
 
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.loginLink}>Already have an account? Log In</Text>
+        <Text className="mt-4 text-green-500 text-base underline">Already have an account? Log In</Text>
       </TouchableOpacity>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: '600',
-    marginBottom: 30,
-    color: '#333',
-  },
-  input: {
-    width: '100%',
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 10,
-    padding: 12,
-    marginBottom: 15,
-    fontSize: 16,
-    backgroundColor: '#f9f9f9',
-  },
-  signUpButton: {
-    width: '100%',
-    backgroundColor: '#4CAF50',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  signUpButtonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  loginLink: {
-    marginTop: 15,
-    color: '#4CAF50',
-    fontSize: 16,
-    textDecorationLine: 'underline',
-  },
-});
 
 export default SignUp;
