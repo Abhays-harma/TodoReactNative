@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, Text, TextInput, FlatList, Modal, Pressable, Keyboard, Alert, TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, Text, TextInput, FlatList, Modal, Pressable, Keyboard, Alert, TouchableOpacity, Image } from 'react-native';
 import * as SQLite from 'expo-sqlite';
+import Svg, { Path } from 'react-native-svg';
 
 const db = SQLite.openDatabaseSync('todoApp.db');
 
@@ -168,7 +169,10 @@ const TodoApp = () => {
           <View className="mb-4 bg-white p-4 rounded-lg border border-gray-300">
             <View className="flex-row justify-between items-center mb-2">
               <Text className="text-lg font-bold">{item.name}</Text>
-              <Pressable className="bg-red-500 p-2 rounded-lg" onPress={() => deleteGroup(item.id)}>
+              <Pressable className="bg-rose-500 p-2 flex-row justify-center items-center rounded-lg" onPress={() => deleteGroup(item.id)}>
+                <Svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                  <Path d="M 10.806641 2 C 10.289641 2 9.7956875 2.2043125 9.4296875 2.5703125 L 9 3 L 4 3 A 1.0001 1.0001 0 1 0 4 5 L 20 5 A 1.0001 1.0001 0 1 0 20 3 L 15 3 L 14.570312 2.5703125 C 14.205312 2.2043125 13.710359 2 13.193359 2 L 10.806641 2 z M 4.3652344 7 L 5.8925781 20.263672 C 6.0245781 21.253672 6.877 22 7.875 22 L 16.123047 22 C 17.121047 22 17.974422 21.254859 18.107422 20.255859 L 19.634766 7 L 4.3652344 7 z" />
+                </Svg>
                 <Text className="text-white font-bold">Delete</Text>
               </Pressable>
             </View>
@@ -196,7 +200,7 @@ const TodoApp = () => {
                     >
                       <Text className="text-white font-bold">Edit</Text>
                     </Pressable>
-                    <Pressable className="bg-red-600 px-2 py-1 rounded-lg" onPress={() => deleteTask(item, task.id)}>
+                    <Pressable className="bg-rose-500 px-2 py-1 rounded-lg" onPress={() => deleteTask(item, task.id)}>
                       <Text className="text-white font-bold">Delete</Text>
                     </Pressable>
                   </View>
