@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, Text, TextInput, FlatList, Modal, Pressable, Keyboard, Alert, TouchableOpacity, StyleSheet } from 'react-native';
+import { SafeAreaView, View, Text, TextInput, FlatList, Modal, Pressable, Keyboard, Alert, TouchableOpacity } from 'react-native';
 import * as SQLite from 'expo-sqlite';
 
 const db = SQLite.openDatabaseSync('todoApp.db');
@@ -147,17 +147,16 @@ const TodoApp = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* Group Creation */}
-      <View style={styles.groupInputContainer}>
+    <SafeAreaView className="flex-1 bg-gray-100 p-4">
+      <View className="flex-row mb-4">
         <TextInput
-          style={styles.input}
+          className="flex-1 bg-white p-2 mt-5 rounded-lg border border-gray-300 mr-2"
           placeholder="Enter group name"
           value={groupName}
           onChangeText={(text) => setGroupName(text)}
         />
-        <Pressable style={styles.addButton} onPress={handleAddGroup}>
-          <Text style={styles.addButtonText}>Add Group</Text>
+        <Pressable className="bg-blue-500 p-2 mt-5 rounded-lg justify-center items-center" onPress={handleAddGroup}>
+          <Text className="text-white font-bold">Add Group</Text>
         </Pressable>
       </View>
 
@@ -166,11 +165,11 @@ const TodoApp = () => {
         data={groups}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <View style={styles.groupContainer}>
-            <View style={styles.groupHeader}>
-              <Text style={styles.groupTitle}>{item.name}</Text>
-              <Pressable style={styles.deleteGroupButton} onPress={() => deleteGroup(item.id)}>
-                <Text style={styles.deleteGroupButtonText}>Delete</Text>
+          <View className="mb-4 bg-white p-4 rounded-lg border border-gray-300">
+            <View className="flex-row justify-between items-center mb-2">
+              <Text className="text-lg font-bold">{item.name}</Text>
+              <Pressable className="bg-red-500 p-2 rounded-lg" onPress={() => deleteGroup(item.id)}>
+                <Text className="text-white font-bold">Delete</Text>
               </Pressable>
             </View>
 
@@ -179,105 +178,94 @@ const TodoApp = () => {
               data={item.tasks}
               keyExtractor={(task) => task.id.toString()}
               renderItem={({ item: task }) => (
-                <TouchableOpacity style={task.completed ? styles.taskCompleted : styles.task} onPress={() => toggleTaskStatus(item, task.id)}>
-                  <Text style={task.completed ? styles.taskTitleCompleted : styles.taskTitle}>
-                    {task.title}
-                  </Text>
-                  <Text style={styles.taskDescription}>{task.description}</Text>
-                  <View style={styles.taskActions}>
-                    <Pressable style={styles.editButton} onPress={() => {
-                      setSelectedTask(task);
-                      setTaskTitle(task.title);
-                      setTaskDescription(task.description);
-                      setIsEditModalVisible(true);
-                    }}>
-                      <Text style={styles.editButtonText}>Edit</Text>
+                <TouchableOpacity
+                  className={`${task.completed ? 'bg-green-100' : 'bg-gray-200'} p-3 rounded-lg my-1`}
+                  onPress={() => toggleTaskStatus(item, task.id)}
+                >
+                  <Text className={`${task.completed ? 'line-through' : ''} text-lg font-bold`}>{task.title}</Text>
+                  <Text className="mt-1 text-gray-600">{task.description}</Text>
+                  <View className="flex-row justify-end mt-2">
+                    <Pressable
+                      className="bg-yellow-500 px-2 py-1 rounded-lg mr-1"
+                      onPress={() => {
+                        setSelectedTask(task);
+                        setTaskTitle(task.title);
+                        setTaskDescription(task.description);
+                        setIsEditModalVisible(true);
+                      }}
+                    >
+                      <Text className="text-white font-bold">Edit</Text>
                     </Pressable>
-                    <Pressable style={styles.deleteButton} onPress={() => deleteTask(item, task.id)}>
-                      <Text style={styles.deleteButtonText}>Delete</Text>
+                    <Pressable className="bg-red-600 px-2 py-1 rounded-lg" onPress={() => deleteTask(item, task.id)}>
+                      <Text className="text-white font-bold">Delete</Text>
                     </Pressable>
                   </View>
                 </TouchableOpacity>
               )}
             />
 
-            {/* Add Task Button */}
             <Pressable
-              style={styles.addTaskButton}
+              className="bg-green-500 p-2 rounded-lg mt-2"
               onPress={() => {
                 setSelectedGroup(item);
                 setIsModalVisible(true);
               }}
             >
-              <Text style={styles.addTaskButtonText}>Add Task</Text>
+              <Text className="text-white font-bold text-center">Add Task</Text>
             </Pressable>
           </View>
         )}
       />
 
-      {/* Modal for Adding Task */}
+      {/* Add Task Modal */}
       <Modal visible={isModalVisible} animationType="slide" transparent={true}>
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Add New Task</Text>
-
+        <View className="flex-1 justify-center items-center bg-black bg-opacity-50">
+          <View className="bg-white p-6 rounded-lg w-11/12">
+            <Text className="text-xl font-bold mb-4">Add Task</Text>
             <TextInput
-              style={styles.modalInput}
+              className="bg-gray-200 p-2 rounded-lg mb-4"
               placeholder="Task Title"
-              placeholderTextColor="#aaa"
               value={taskTitle}
-              onChangeText={(text) => setTaskTitle(text)}
+              onChangeText={setTaskTitle}
             />
             <TextInput
-              style={[styles.modalInput, styles.textArea]}
+              className="bg-gray-200 p-2 rounded-lg mb-4"
               placeholder="Task Description"
-              placeholderTextColor="#aaa"
               value={taskDescription}
-              onChangeText={(text) => setTaskDescription(text)}
-              multiline={true}
-              numberOfLines={4}
+              onChangeText={setTaskDescription}
             />
-
-            <Pressable style={styles.addButtonModal} onPress={handleAddTask}>
-              <Text style={styles.addButtonTextModal}>Add Task</Text>
+            <Pressable className="bg-blue-500 p-2 rounded-lg mb-2" onPress={handleAddTask}>
+              <Text className="text-white font-bold">Add Task</Text>
             </Pressable>
-
-            <Pressable style={styles.cancelButton} onPress={() => setIsModalVisible(false)}>
-              <Text style={styles.cancelButtonText}>Cancel</Text>
+            <Pressable className="bg-gray-500 p-2 rounded-lg" onPress={() => setIsModalVisible(false)}>
+              <Text className="text-white font-bold">Cancel</Text>
             </Pressable>
           </View>
         </View>
       </Modal>
 
-      {/* Modal for Editing Task */}
+
       <Modal visible={isEditModalVisible} animationType="slide" transparent={true}>
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Edit Task</Text>
-
+        <View className="flex-1 justify-center items-center bg-black bg-opacity-50">
+          <View className="bg-white p-6 rounded-lg w-11/12">
+            <Text className="text-xl font-bold mb-4">Edit Task</Text>
             <TextInput
-              style={styles.modalInput}
+              className="bg-gray-200 p-2 rounded-lg mb-4"
               placeholder="Task Title"
-              placeholderTextColor="#aaa"
               value={taskTitle}
-              onChangeText={(text) => setTaskTitle(text)}
+              onChangeText={setTaskTitle}
             />
             <TextInput
-              style={[styles.modalInput, styles.textArea]}
+              className="bg-gray-200 p-2 rounded-lg mb-4"
               placeholder="Task Description"
-              placeholderTextColor="#aaa"
               value={taskDescription}
-              onChangeText={(text) => setTaskDescription(text)}
-              multiline={true}
-              numberOfLines={4}
+              onChangeText={setTaskDescription}
             />
-
-            <Pressable style={styles.addButtonModal} onPress={handleEditTask}>
-              <Text style={styles.addButtonTextModal}>Save Changes</Text>
+            <Pressable className="bg-blue-500 p-2 rounded-lg mb-2" onPress={handleEditTask}>
+              <Text className="text-white font-bold">Save Changes</Text>
             </Pressable>
-
-            <Pressable style={styles.cancelButton} onPress={() => setIsEditModalVisible(false)}>
-              <Text style={styles.cancelButtonText}>Cancel</Text>
+            <Pressable className="bg-gray-500 p-2 rounded-lg" onPress={() => setIsEditModalVisible(false)}>
+              <Text className="text-white font-bold">Cancel</Text>
             </Pressable>
           </View>
         </View>
@@ -286,185 +274,4 @@ const TodoApp = () => {
   );
 };
 
-// Define the styles
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f3f4f6',
-    padding: 16,
-  },
-  groupInputContainer: {
-    flexDirection: 'row',
-    marginBottom: 16,
-  },
-  input: {
-    flex: 1,
-    backgroundColor: '#fff',
-    padding: 10,
-    borderRadius: 8,
-    borderColor: '#ddd',
-    borderWidth: 1,
-    marginRight: 8,
-    marginTop: 10,
-  },
-  addButton: {
-    backgroundColor: '#007bff',
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    display:'flex',
-    justifyContent:'center',
-    alignItems:'center',
-    textAlign:'center',
-    marginTop: 10,
-  },
-  addButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  groupContainer: {
-    marginBottom: 16,
-    backgroundColor: '#fff',
-    padding: 16,
-    borderRadius: 8,
-    borderColor: '#ddd',
-    borderWidth: 1,
-  },
-  groupHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  groupTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  deleteGroupButton: {
-    backgroundColor: '#ff4d4d',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 8,
-  },
-  deleteGroupButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  task: {
-    backgroundColor: '#e6e6e6',
-    padding: 12,
-    borderRadius: 8,
-    marginVertical: 4,
-  },
-  taskCompleted: {
-    backgroundColor: '#d4edda',
-    padding: 12,
-    borderRadius: 8,
-    marginVertical: 4,
-  },
-  taskTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  taskTitleCompleted: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    textDecorationLine: 'line-through',
-  },
-  taskDescription: {
-    marginTop: 4,
-    fontSize: 14,
-    color: '#666',
-  },
-  taskActions: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginTop: 8,
-  },
-  editButton: {
-    backgroundColor: '#ffc107',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 8,
-    marginRight: 4,
-  },
-  editButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  deleteButton: {
-    backgroundColor: '#dc3545',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 8,
-  },
-  deleteButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  addTaskButton: {
-    backgroundColor: '#28a745',
-    padding: 10,
-    borderRadius: 8,
-    marginTop: 8,
-  },
-  addTaskButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalOverlay: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    backgroundColor: '#fff',
-    padding: 20,
-    borderRadius: 8,
-    width: '80%',
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 16,
-    textAlign: 'center',
-  },
-  modalInput: {
-    backgroundColor: '#f0f0f0',
-    padding: 10,
-    borderRadius: 8,
-    marginBottom: 12,
-  },
-  textArea: {
-    height: 80,
-    textAlignVertical: 'top',
-  },
-  addButtonModal: {
-    backgroundColor: '#007bff',
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-    marginBottom: 8,
-  },
-  addButtonTextModal: {
-    color: '#fff',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  cancelButton: {
-    backgroundColor: '#6c757d',
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-  },
-  cancelButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-});
-
 export default TodoApp;
-
