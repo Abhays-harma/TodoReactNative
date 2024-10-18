@@ -15,7 +15,7 @@ const TodoApp = () => {
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
 
-  // Create the groups and tasks tables if they don't exist
+  
   useEffect(() => {
     const initializeDatabase = async () => {
       try {
@@ -23,7 +23,7 @@ const TodoApp = () => {
           CREATE TABLE IF NOT EXISTS groups (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT);
           CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, group_id INTEGER, title TEXT, description TEXT, completed BOOLEAN);
         `);
-        loadGroups(); // Load groups from the database on startup
+        loadGroups();
       } catch (error) {
         Alert.alert('Database Error', 'Failed to initialize database: ' + error.message);
       }
@@ -31,8 +31,6 @@ const TodoApp = () => {
 
     initializeDatabase();
   }, []);
-
-  // Load groups from the database
   const loadGroups = async () => {
     try {
       const groupsData = await db.getAllAsync('SELECT * FROM groups;');
@@ -46,7 +44,6 @@ const TodoApp = () => {
     }
   };
 
-  // Load tasks for a specific group
   const loadTasksForGroup = async (groupId) => {
     try {
       const tasks = await db.getAllAsync('SELECT * FROM tasks WHERE group_id = ?;', [groupId]);
@@ -57,8 +54,6 @@ const TodoApp = () => {
       Alert.alert('Database Error', 'Failed to load tasks for the group: ' + error.message);
     }
   };
-
-  // Add a new group
   const handleAddGroup = async () => {
     if (groupName.trim()) {
       try {
@@ -75,18 +70,17 @@ const TodoApp = () => {
     }
   };
 
-  // Delete a group and its tasks
   const deleteGroup = async (groupId) => {
     try {
       await db.runAsync('DELETE FROM groups WHERE id = ?;', [groupId]);
       await db.runAsync('DELETE FROM tasks WHERE group_id = ?;', [groupId]);
-      loadGroups(); // Reload groups after deletion
+      loadGroups();
     } catch (error) {
       Alert.alert('Database Error', 'Failed to delete group: ' + error.message);
     }
   };
 
-  // Add a new task to the selected group
+
   const handleAddTask = async () => {
     if (taskTitle.trim()) {
       try {
@@ -108,12 +102,12 @@ const TodoApp = () => {
     }
   };
 
-  // Edit an existing task
+
   const handleEditTask = async () => {
     if (taskTitle.trim()) {
       try {
         await db.runAsync('UPDATE tasks SET title = ?, description = ? WHERE id = ?;', [taskTitle, taskDescription, selectedTask.id]);
-        loadTasksForGroup(selectedGroup.id); // Reload tasks for the group after update
+        loadTasksForGroup(selectedGroup.id);
         setTaskTitle('');
         setTaskDescription('');
         setIsEditModalVisible(false);
@@ -125,23 +119,21 @@ const TodoApp = () => {
     }
   };
 
-  // Toggle task completion status
   const toggleTaskStatus = async (group, taskId) => {
     try {
       const task = group.tasks.find(t => t.id === taskId);
       const newStatus = !task.completed;
       await db.runAsync('UPDATE tasks SET completed = ? WHERE id = ?;', [newStatus, taskId]);
-      loadTasksForGroup(group.id); // Reload tasks for the group after update
+      loadTasksForGroup(group.id);
     } catch (error) {
       Alert.alert('Database Error', 'Failed to toggle task status: ' + error.message);
     }
   };
 
-  // Delete a task
   const deleteTask = async (group, taskId) => {
     try {
       await db.runAsync('DELETE FROM tasks WHERE id = ?;', [taskId]);
-      loadTasksForGroup(group.id); // Reload tasks after deletion
+      loadTasksForGroup(group.id);
     } catch (error) {
       Alert.alert('Database Error', 'Failed to delete task: ' + error.message);
     }
@@ -161,7 +153,6 @@ const TodoApp = () => {
         </Pressable>
       </View>
 
-      {/* Group List */}
       <FlatList
         data={groups}
         keyExtractor={(item) => item.id.toString()}
@@ -177,7 +168,6 @@ const TodoApp = () => {
               </Pressable>
             </View>
 
-            {/* Task List for Group */}
             <FlatList
               data={item.tasks}
               keyExtractor={(task) => task.id.toString()}
@@ -220,8 +210,6 @@ const TodoApp = () => {
           </View>
         )}
       />
-
-      {/* Add Task Modal */}
       <Modal visible={isModalVisible} animationType="slide" transparent={true}>
         <View className="flex-1 justify-center items-center bg-black bg-opacity-50">
           <View className="bg-white p-6 rounded-lg w-11/12">
