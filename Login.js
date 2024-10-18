@@ -43,8 +43,7 @@ const Login = () => {
   };
 
   return (
-    <View className="flex-1 bg-white items-center justify-center p-5">
-      {/* Optionally add a logo here */}
+    <View className="flex-1 bg-gray-200 items-center justify-center p-5">
       <Text className="text-4xl font-semibold mb-8 text-gray-800">Todo App</Text>
 
       <TextInput
