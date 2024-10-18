@@ -14,7 +14,7 @@ const App = () => {
         <Stack.Screen 
           name="Login" 
           component={Login} 
-          options={{ headerShown: false }} // Hides header for Login screen
+          options={{ headerShown: false }}
         />
         <Stack.Screen name="SignUp" options={{ headerShown: false }} component={SignUp} />
         <Stack.Screen name="TodoApp" options={{ headerShown: false }} component={TodoApp} />
