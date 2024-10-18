@@ -17,11 +17,21 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "backgroundColor": "#ffffff",
+        "jsEngine": "jsc"
+      },
+      "package": "com.abhay23112003.todoApp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-asset"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "4ab2cef4-e4c6-4c11-8191-2dd85c9a43a2"
+      }
     }
   }
 }
